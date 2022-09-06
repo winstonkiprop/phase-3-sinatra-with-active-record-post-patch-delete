@@ -15,5 +15,35 @@ class ApplicationController < Sinatra::Base
       } }
     })
   end
+# deleting a review
+delete '/reviews/:id' do
+  # find the review using the ID
+  review = Review.find(params[:id])
+  # delete the review
+  review.destroy
+  # send a response with the deleted review as JSON
+  review.to_json 
+  # "deleted review"
+end
 
+# posting a review
+post '/reviews' do
+  review = Review.create(
+    score: params[:score],
+    comment: params[:comment],
+    game_id: params[:game_id],
+    user_id: params[:user_id]
+  )
+  review.to_json
+end
+
+  patch '/reviews/:id' do
+  review=Review.find(params[:id])
+  review.update(
+    comment: params[:comment],
+      score: params[:score]
+  )
+  review.to_json 
+  # "updated sucessfully"
+end
 end
